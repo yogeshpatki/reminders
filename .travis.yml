@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+ - "lts/*"
+
+before_install: 
+  - yarn install
+  - yarn build
+
+install:
+  - npm install -g firebase-tools
+after_success:
+  - firebase deploy --project yp-reminders --token $FIREBASE_TOKEN
