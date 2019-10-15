@@ -7,6 +7,7 @@ import { fireAuth } from './config/fire';
 import asyncComponent from './AsyncComponent';
 import Home from './components/Home';
 import Header from './components/Header';
+import { getUserData } from './data/userData';
 
 const AsyncLogin = asyncComponent(()=> import('./components/Login'))
 
@@ -18,12 +19,14 @@ class App extends Component {
 
   handleOnLogin = user => {
     console.log("Auth State Changed: User {}" );
-    console.log(user);
+
     if (user) {
       if (!this.props.user) {
         const { displayName, uid } = user;
         this.props.dispatch(userLogin({ displayName, uid }));
-        this.props.dispatch(loadUserData( uid ));
+        getUserData(uid).then(data => {
+          this.props.dispatch(loadUserData(data));
+        });
       }
     } else {
       this.props.dispatch(userLogout());
@@ -49,6 +52,7 @@ class App extends Component {
               onLogout={e => {
                 fireAuth.signOut().then(() => {
                   this.props.dispatch(userLogout());
+                  window.location = 'login';
                 });
               }}
             />

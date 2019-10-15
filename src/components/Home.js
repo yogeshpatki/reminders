@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import {getUserData}  from '../data/userData';
-
+import LoggedInUser from './LoggedInUser';
 
 class Home extends Component {
 
@@ -9,12 +8,10 @@ class Home extends Component {
     const { user } = this.props;
 
     return (
-      
       <div>
         {!!user ? 
-        (<span>Thanks for singing in {getUserData(user.uid)}. Watch this space for amazing content!.</span>) : 
+         <LoggedInUser {...this.props} />: 
         (<span>Please login to view this page</span>)}
-        
       </div>
     )
   }
