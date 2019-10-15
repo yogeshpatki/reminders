@@ -23,39 +23,46 @@ const useStyles = makeStyles(theme => ({
 
 export default function CustomSpeedDial() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [modalState, toggleModal] = React.useState({modalOpen : false});
+  const [dialState, toggleDial] = React.useState({speedDialOpen : false});
 
-  const handleOpen = () => {
-    setOpen(true);
+  const modalOpen = () => {
+    toggleModal({
+      modalOpen: true
+    });
   };
 
-  const handleClose = (onClickHandler) => {
-    return () => {
-      setOpen(false);
-      onClickHandler();
-    }
+  const modalClose = () => {
+    toggleModal({
+      modalOpen: false
+    });
   };
 
-  const customClose = () => {
-    setOpen(false);
+  const dialOpen = () => {
+    toggleDial({
+      speedDialOpen: true
+    });
   }
 
-  const [openModal, setOpenModal] = React.useState(false);
+  const dialClose = () => {
+    toggleDial({
+      speedDialOpen: false
+    });
+  }
 
-  const handleOpenModal = () => {
-    setOpenModal(true);
+  const dialCloseWithAction = (beforeClose) => {
+    return () => {
+      beforeClose();
+      dialClose();
+    };
   };
 
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
-
-  const nickNameSetter = (<SetNickName open={openModal} onClose={handleCloseModal} />)
+  const nickNameSetter = (<SetNickName open={modalState.modalOpen} onClose={modalClose} />)
 
   const actions = [
     { icon: <FileCopyIcon />, name: 'New', onClick : () => console.log('New') },
     { icon: <SaveIcon />, name: 'Save', onClick : () => console.log('Save') },
-    { icon: <FaceIcon />, name: 'Nickname', onClick: handleOpenModal }
+    { icon: <FaceIcon />, name: 'Nickname', onClick: modalOpen }
   ];
 
   return (
@@ -65,9 +72,9 @@ export default function CustomSpeedDial() {
         ariaLabel="Task Buttons"
         className={classes.speedDial}
         icon={<SpeedDialIcon />}
-        onClose={customClose}
-        onOpen={handleOpen}
-        open={open}
+        onClose={dialClose}
+        onOpen={dialOpen}
+        open={dialState.speedDialOpen}
       >
         {actions.map(action => (
           <SpeedDialAction
@@ -75,10 +82,11 @@ export default function CustomSpeedDial() {
             icon={action.icon}
             tooltipTitle={action.name}
             tooltipOpen
-            onClick={handleClose(action.onClick)}
+            onClick={dialCloseWithAction(action.onClick)}
           />
         ))}
       </SpeedDial>
     </div>
   );
+
 }

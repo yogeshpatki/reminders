@@ -26,7 +26,11 @@ const useStyles = makeStyles(theme => ({
 
 export default function SetNickName(props) {
   const classes = useStyles();
-  const {open, handleClose} = props;
+  const { open, onClose } = props;
+
+  const persistNickName = (e) => {
+    onClose();
+  }
 
   return (
     <div>
@@ -35,7 +39,6 @@ export default function SetNickName(props) {
         aria-describedby="Edit nick name on your account"
         className={classes.modal}
         open={open}
-        onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
@@ -52,7 +55,7 @@ export default function SetNickName(props) {
               className={classes.textField}
               margin="normal"
             />
-            <Button variant="contained" color="primary" className={classes.button} onClick={props.handleClose}>
+            <Button variant="contained" color="primary" className={classes.button} onClick={persistNickName}>
               Save
           </Button>
           </div>
