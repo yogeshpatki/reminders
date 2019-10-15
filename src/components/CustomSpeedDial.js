@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Backdrop from '@material-ui/core/Backdrop';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
@@ -22,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SpeedDialTooltipOpen() {
+export default function CustomSpeedDial() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -37,6 +36,10 @@ export default function SpeedDialTooltipOpen() {
     }
   };
 
+  const customClose = () => {
+    setOpen(false);
+  }
+
   const [openModal, setOpenModal] = React.useState(false);
 
   const handleOpenModal = () => {
@@ -50,20 +53,19 @@ export default function SpeedDialTooltipOpen() {
   const nickNameSetter = (<SetNickName open={openModal} onClose={handleCloseModal} />)
 
   const actions = [
-    { icon: <FileCopyIcon />, name: 'New', onClick : e => console.log('New') },
-    { icon: <SaveIcon />, name: 'Save', onClick : e => console.log('Save') },
+    { icon: <FileCopyIcon />, name: 'New', onClick : () => console.log('New') },
+    { icon: <SaveIcon />, name: 'Save', onClick : () => console.log('Save') },
     { icon: <FaceIcon />, name: 'Nickname', onClick: handleOpenModal }
   ];
 
   return (
     <div className={classes.root}>
       {nickNameSetter}
-      <Backdrop open={open} />
       <SpeedDial
         ariaLabel="Task Buttons"
         className={classes.speedDial}
         icon={<SpeedDialIcon />}
-        onClose={handleClose}
+        onClose={customClose}
         onOpen={handleOpen}
         open={open}
       >
