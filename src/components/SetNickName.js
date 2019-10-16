@@ -5,6 +5,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { saveNickName } from '../data/userData';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -27,8 +28,9 @@ const useStyles = makeStyles(theme => ({
 export default function SetNickName(props) {
   const classes = useStyles();
   const { open, onClose } = props;
-
-  const persistNickName = (e) => {
+  const persistNickName = () => {
+    let nickName = document.getElementById('nickname').value;
+    saveNickName(nickName);
     onClose();
   }
 
@@ -49,7 +51,7 @@ export default function SetNickName(props) {
           <div className={classes.paper}>
             <h2 id="transition-modal-title">Set Nickname</h2>
             <TextField
-              id="standard-textarea"
+              id="nickname"
               label="NickName"
               placeholder="What would you like us to call you?"
               className={classes.textField}

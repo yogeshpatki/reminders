@@ -10,7 +10,5 @@ export const getUserData = uid => {
 
 export const saveNickName = (uid, nickName) => {
   let userRef = fireDataRef.collection('users').doc(uid);
-  return userRef.get().then(x => {
-    return x.data();
-  });
+  return userRef.set({nickName : nickName}, { merge: true });
 }
